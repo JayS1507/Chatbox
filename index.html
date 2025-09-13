@@ -3,34 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aegis Chat - A Zero-Trust Secure Messenger</title>
+    <title>Aegis Chat - Decoy Mode</title>
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- JSEncrypt for RSA Encryption -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.3.2/jsencrypt.min.js"></script>
     <style>
         /* Custom scrollbar for a better look */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #2d3748; /* gray-800 */
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #4a5568; /* gray-600 */
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #718096; /* gray-500 */
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1a202c; } /* gray-900 */
+        ::-webkit-scrollbar-thumb { background: #4a5568; border-radius: 4px; } /* gray-600 */
+        ::-webkit-scrollbar-thumb:hover { background: #718096; } /* gray-500 */
         /* Basic font styling */
-        body {
-            font-family: 'Inter', sans-serif;
-        }
+        body { font-family: 'Inter', sans-serif; }
         /* Style for placeholder text */
-        ::placeholder {
-            color: #a0aec0; /* gray-400 */
-        }
+        ::placeholder { color: #a0aec0; } /* gray-400 */
+        /* Hide password reveal toggle on browsers that add it */
+        input[type="password"]::-ms-reveal,
+        input[type="password"]::-ms-clear { display: none; }
     </style>
     <link rel="preconnect" href="https://rsms.me/">
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
@@ -41,37 +31,37 @@
 
         <!-- AUTHENTICATION VIEW -->
         <div id="auth-view" class="flex flex-col items-center justify-center h-full">
-            <div class="w-full max-w-md p-8 space-y-8 bg-gray-900 rounded-xl shadow-lg">
+            <div class="w-full max-w-md p-8 space-y-6 bg-gray-900 rounded-xl shadow-lg">
                 <div class="text-center">
-                    <svg class="mx-auto h-12 w-auto text-indigo-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                     <svg class="mx-auto h-12 w-auto text-indigo-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.898 20.553L16.5 21.75l-.398-1.197a3.375 3.375 0 00-2.456-2.456L12.75 18l1.197-.398a3.375 3.375 0 002.456-2.456L16.5 14.25l.398 1.197a3.375 3.375 0 002.456 2.456L20.25 18l-1.197.398a3.375 3.375 0 00-2.456 2.456z" />
                     </svg>
-                    <h2 class="mt-6 text-3xl font-bold tracking-tight text-white">Aegis Chat</h2>
-                    <p class="mt-2 text-sm text-gray-400">Zero-Knowledge Secure Messenger</p>
+                    <h2 class="mt-4 text-3xl font-bold tracking-tight text-white">Aegis Chat</h2>
+                    <p class="mt-2 text-sm text-gray-400">Security Against Coercion</p>
                 </div>
-
+                
                 <div id="auth-error" class="text-red-400 text-sm text-center font-medium hidden"></div>
 
-                <form id="auth-form" class="space-y-6">
-                    <div>
-                        <label for="username" class="sr-only">Username</label>
-                        <input id="username" name="username" type="text" required class="relative block w-full appearance-none rounded-md border border-gray-700 bg-gray-800 px-3 py-3 text-white placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Username">
-                    </div>
-                    <div>
-                        <label for="password" class="sr-only">Password</label>
-                        <input id="password" name="password" type="password" required class="relative block w-full appearance-none rounded-md border border-gray-700 bg-gray-800 px-3 py-3 text-white placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Password">
-                    </div>
+                <div class="flex border-b border-gray-700">
+                    <button id="login-tab" class="w-1/2 py-3 text-sm font-semibold text-center border-b-2 border-indigo-500 text-white">Login</button>
+                    <button id="register-tab" class="w-1/2 py-3 text-sm font-semibold text-center border-b-2 border-transparent text-gray-400 hover:text-white">Register</button>
+                </div>
 
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <button type="button" id="login-btn" class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-semibold text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors">
-                            Login
-                        </button>
-                        <button type="button" id="register-btn" class="group relative flex w-full justify-center rounded-md border border-indigo-600 py-2 px-4 text-sm font-semibold text-indigo-400 hover:bg-indigo-900/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors">
-                            Register
-                        </button>
-                    </div>
+                <!-- LOGIN FORM -->
+                <form id="login-form" class="space-y-6">
+                    <input id="login-username" type="text" required class="relative block w-full appearance-none rounded-md border border-gray-700 bg-gray-800 px-3 py-3 text-white placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Username">
+                    <input id="login-password" type="password" required class="relative block w-full appearance-none rounded-md border border-gray-700 bg-gray-800 px-3 py-3 text-white placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Password">
+                    <button type="submit" class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-semibold text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors">Log In</button>
                 </form>
-                 <p class="text-xs text-gray-500 text-center mt-4">All data is stored in your browser's local storage. Your private keys never leave your device.</p>
+
+                <!-- REGISTER FORM -->
+                <form id="register-form" class="hidden space-y-4">
+                     <p class="text-xs text-center text-gray-400">Create two passwords. One for your real chats, and one to show a decoy version if you're ever forced to open the app.</p>
+                     <input id="register-username" type="text" required class="relative block w-full appearance-none rounded-md border border-gray-700 bg-gray-800 px-3 py-3 text-white placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Username">
+                     <input id="register-password-primary" type="password" required class="relative block w-full appearance-none rounded-md border border-green-700 bg-gray-800 px-3 py-3 text-white placeholder-gray-500 focus:z-10 focus:border-green-500 focus:outline-none focus:ring-green-500 sm:text-sm" placeholder="Your REAL Password">
+                     <input id="register-password-duress" type="password" required class="relative block w-full appearance-none rounded-md border border-yellow-700 bg-gray-800 px-3 py-3 text-white placeholder-gray-500 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500 sm:text-sm" placeholder="Your DECOY (Duress) Password">
+                     <button type="submit" id="register-btn" class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-semibold text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors">Register Account</button>
+                </form>
             </div>
         </div>
 
@@ -86,9 +76,7 @@
                     </button>
                 </div>
                 <h3 class="text-sm font-semibold text-gray-400 mb-2">CONTACTS</h3>
-                <div id="users-list" class="flex-1 overflow-y-auto space-y-2 pr-2">
-                    <!-- User list items will be injected here -->
-                </div>
+                <div id="users-list" class="flex-1 overflow-y-auto space-y-2 pr-2"></div>
             </aside>
 
             <!-- Main chat area -->
@@ -103,9 +91,7 @@
                     <header class="flex items-center p-4 border-b border-gray-700/50 bg-gray-900/30">
                         <h3 id="chat-with-username" class="text-lg font-bold"></h3>
                     </header>
-                    <div id="messages-container" class="flex-1 p-6 overflow-y-auto space-y-6">
-                        <!-- Messages will be injected here -->
-                    </div>
+                    <div id="messages-container" class="flex-1 p-6 overflow-y-auto space-y-6"></div>
                     <footer class="p-4">
                         <form id="message-form" class="flex items-center space-x-4">
                             <input id="message-input" type="text" placeholder="Type an encrypted message..." autocomplete="off" class="flex-1 bg-gray-700 rounded-full py-3 px-5 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
@@ -117,345 +103,359 @@
                 </div>
             </main>
         </div>
-
     </div>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
+<script>
+document.addEventListener('DOMContentLoaded', () => {
 
-        // --- STATE MANAGEMENT ---
-        const state = {
-            currentUser: null,
-            privateKey: null,
-            activeChatUser: null, // { username, publicKey }
-            users: [],
-            messagePollInterval: null,
-        };
+    // --- STATE MANAGEMENT ---
+    const state = {
+        currentUser: null, // { username, primaryPublicKey, decoyPublicKey }
+        privateKey: null, // The key for the current context
+        context: null,    // 'primary' or 'decoy'
+        activeChatUser: null, // The user we are chatting with
+        users: [],
+        messagePollInterval: null,
+    };
 
-        // --- UI ELEMENTS ---
-        const authView = document.getElementById('auth-view');
-        const chatView = document.getElementById('chat-view');
-        const authForm = document.getElementById('auth-form');
-        const loginBtn = document.getElementById('login-btn');
-        const registerBtn = document.getElementById('register-btn');
-        const logoutBtn = document.getElementById('logout-btn');
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
-        const authError = document.getElementById('auth-error');
+    // --- UI ELEMENTS ---
+    const authView = document.getElementById('auth-view');
+    const chatView = document.getElementById('chat-view');
+    const authError = document.getElementById('auth-error');
+    const loginTab = document.getElementById('login-tab');
+    const registerTab = document.getElementById('register-tab');
+    
+    // Login Form
+    const loginForm = document.getElementById('login-form');
+    const loginUsernameInput = document.getElementById('login-username');
+    const loginPasswordInput = document.getElementById('login-password');
+    
+    // Register Form
+    const registerForm = document.getElementById('register-form');
+    const registerUsernameInput = document.getElementById('register-username');
+    const registerPasswordPrimaryInput = document.getElementById('register-password-primary');
+    const registerPasswordDuressInput = document.getElementById('register-password-duress');
+    const registerBtn = document.getElementById('register-btn');
+    
+    // Chat View
+    const logoutBtn = document.getElementById('logout-btn');
+    const currentUsernameEl = document.getElementById('current-username');
+    const usersListEl = document.getElementById('users-list');
+    const chatWelcome = document.getElementById('chat-welcome');
+    const chatActive = document.getElementById('chat-active');
+    const chatWithUsernameEl = document.getElementById('chat-with-username');
+    const messagesContainer = document.getElementById('messages-container');
+    const messageForm = document.getElementById('message-form');
+    const messageInput = document.getElementById('message-input');
 
-        const currentUsernameEl = document.getElementById('current-username');
-        const usersListEl = document.getElementById('users-list');
+    // --- "BACKEND" SIMULATION (using Local Storage) ---
+    const db = {
+        getUsers: () => JSON.parse(localStorage.getItem('aegis_users_v2') || '[]'),
+        saveUsers: (users) => localStorage.setItem('aegis_users_v2', JSON.stringify(users)),
+        getMessages: () => JSON.parse(localStorage.getItem('aegis_messages_v2') || '[]'),
+        saveMessages: (messages) => localStorage.setItem('aegis_messages_v2', JSON.stringify(messages)),
+    };
 
-        const chatWelcome = document.getElementById('chat-welcome');
-        const chatActive = document.getElementById('chat-active');
-        const chatWithUsernameEl = document.getElementById('chat-with-username');
-        const messagesContainer = document.getElementById('messages-container');
-        const messageForm = document.getElementById('message-form');
-        const messageInput = document.getElementById('message-input');
+    // --- CRYPTOGRAPHY ---
+    const KEY_SIZE = 1024; // Smaller key size for faster generation during demo
 
-
-        // --- "BACKEND" SIMULATION (using Local Storage) ---
-        // In a real app, this would be a server with a database and WebSockets.
-        // For the hackathon, this self-contained approach is perfect for demonstration.
-        const db = {
-            getUsers: () => JSON.parse(localStorage.getItem('aegis_users') || '[]'),
-            saveUsers: (users) => localStorage.setItem('aegis_users', JSON.stringify(users)),
-            getMessages: () => JSON.parse(localStorage.getItem('aegis_messages') || '[]'),
-            saveMessages: (messages) => localStorage.setItem('aegis_messages', JSON.stringify(messages)),
-        };
-
-        // --- CRYPTOGRAPHY ---
-        const KEY_SIZE = 2048; // RSA key size
+    const generateKeyPair = () => {
         const crypt = new JSEncrypt({ default_key_size: KEY_SIZE });
+        return { privateKey: crypt.getPrivateKey(), publicKey: crypt.getPublicKey() };
+    };
 
-        const generateKeyPair = () => {
-            const newCrypt = new JSEncrypt({ default_key_size: KEY_SIZE });
-            const privateKey = newCrypt.getPrivateKey();
-            const publicKey = newCrypt.getPublicKey();
-            return { privateKey, publicKey };
-        };
+    const encryptMessage = (text, publicKey) => {
+        const crypt = new JSEncrypt();
+        crypt.setPublicKey(publicKey);
+        return crypt.encrypt(text);
+    };
 
-        const encryptMessage = (text, publicKey) => {
-            crypt.setPublicKey(publicKey);
-            return crypt.encrypt(text);
-        };
+    const decryptMessage = (encryptedText, privateKey) => {
+        const crypt = new JSEncrypt();
+        crypt.setPrivateKey(privateKey);
+        return crypt.decrypt(encryptedText);
+    };
 
-        const decryptMessage = (encryptedText, privateKey) => {
-            crypt.setPrivateKey(privateKey);
-            return crypt.decrypt(encryptedText);
-        };
+    // --- UI LOGIC ---
+    const showAuthView = () => { authView.style.display = 'flex'; chatView.style.display = 'none'; };
+    const showChatView = () => { authView.style.display = 'none'; chatView.style.display = 'flex'; };
+    
+    const switchTab = (tab) => {
+        if (tab === 'login') {
+            loginTab.classList.add('border-indigo-500', 'text-white');
+            loginTab.classList.remove('border-transparent', 'text-gray-400');
+            registerTab.classList.add('border-transparent', 'text-gray-400');
+            registerTab.classList.remove('border-indigo-500', 'text-white');
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+        } else {
+            registerTab.classList.add('border-indigo-500', 'text-white');
+            registerTab.classList.remove('border-transparent', 'text-gray-400');
+            loginTab.classList.add('border-transparent', 'text-gray-400');
+            loginTab.classList.remove('border-indigo-500', 'text-white');
+            registerForm.style.display = 'block';
+            loginForm.style.display = 'none';
+        }
+    };
 
-        // --- UI LOGIC ---
-        const showAuthView = () => {
-            authView.style.display = 'flex';
-            chatView.style.display = 'none';
-        };
+    const displayAuthError = (message) => { authError.textContent = message; authError.classList.remove('hidden'); };
+    const clearAuthError = () => { authError.classList.add('hidden'); authError.textContent = ''; };
 
-        const showChatView = () => {
-            authView.style.display = 'none';
-            chatView.style.display = 'flex';
-        };
+    // --- APPLICATION LOGIC ---
 
-        const displayAuthError = (message) => {
-            authError.textContent = message;
-            authError.classList.remove('hidden');
-        };
+    const handleRegister = (e) => {
+        e.preventDefault();
+        clearAuthError();
+        const username = registerUsernameInput.value.trim();
+        const primaryPassword = registerPasswordPrimaryInput.value;
+        const duressPassword = registerPasswordDuressInput.value;
 
-        const clearAuthError = () => {
-            authError.classList.add('hidden');
-            authError.textContent = '';
-        };
+        if (!username || !primaryPassword || !duressPassword) {
+            displayAuthError('All fields are required.'); return;
+        }
+        if (primaryPassword === duressPassword) {
+            displayAuthError('Real and Decoy passwords must be different.'); return;
+        }
 
-        // --- APPLICATION LOGIC ---
+        const users = db.getUsers();
+        if (users.find(u => u.username === username)) {
+            displayAuthError('Username already exists.'); return;
+        }
 
-        const handleRegister = () => {
-            clearAuthError();
-            const username = usernameInput.value.trim();
-            const password = passwordInput.value;
+        registerBtn.textContent = 'Generating Key Pairs...';
+        registerBtn.disabled = true;
 
-            if (!username || !password) {
-                displayAuthError('Username and password are required.');
-                return;
-            }
-
-            const users = db.getUsers();
-            if (users.find(u => u.username === username)) {
-                displayAuthError('Username already exists.');
-                return;
-            }
-
-            // Generate keys on the client-side. This is the core principle.
-            registerBtn.textContent = 'Generating keys...';
-            registerBtn.disabled = true;
-
-            setTimeout(() => { // Simulate async key generation
-                const { privateKey, publicKey } = generateKeyPair();
-
-                const newUser = {
-                    username,
-                    // In a real app, hash the password (e.g., with bcrypt)
-                    password, // Storing plaintext for simplicity in this demo
-                    publicKey,
-                };
-
-                users.push(newUser);
-                db.saveUsers(users);
-
-                // IMPORTANT: The private key is stored ONLY on the client's machine,
-                // associated with their username. It's never sent to the "server".
-                localStorage.setItem(`aegis_pk_${username}`, privateKey);
-
-                alert(`Registration successful for ${username}! Your keys have been generated and stored locally. Please log in.`);
-                authForm.reset();
-                registerBtn.textContent = 'Register';
-                registerBtn.disabled = false;
-            }, 50);
-        };
-
-        const handleLogin = () => {
-            clearAuthError();
-            const username = usernameInput.value.trim();
-            const password = passwordInput.value;
-
-            if (!username || !password) {
-                displayAuthError('Username and password are required.');
-                return;
-            }
-
-            const users = db.getUsers();
-            const user = users.find(u => u.username === username && u.password === password);
-
-            if (!user) {
-                displayAuthError('Invalid username or password.');
-                return;
-            }
-
-            const privateKey = localStorage.getItem(`aegis_pk_${username}`);
-            if (!privateKey) {
-                displayAuthError('Critical error: Private key not found for this user.');
-                return;
-            }
-
-            state.currentUser = user;
-            state.privateKey = privateKey;
-
-            // Save session
-            sessionStorage.setItem('aegis_session_user', JSON.stringify(user));
-            sessionStorage.setItem('aegis_session_pk', privateKey);
-
-            initChatApp();
-        };
-
-        const handleLogout = () => {
-            state.currentUser = null;
-            state.privateKey = null;
-            state.activeChatUser = null;
-            if (state.messagePollInterval) {
-                clearInterval(state.messagePollInterval);
-            }
-            sessionStorage.removeItem('aegis_session_user');
-            sessionStorage.removeItem('aegis_session_pk');
-            showAuthView();
-            authForm.reset();
-        };
-
-        const initChatApp = () => {
-            currentUsernameEl.textContent = state.currentUser.username;
-            populateUsersList();
-            showChatView();
-            // Start polling for new messages
-            state.messagePollInterval = setInterval(pollForMessages, 2000);
-        };
-
-        const populateUsersList = () => {
-            const allUsers = db.getUsers();
-            state.users = allUsers.filter(u => u.username !== state.currentUser.username);
-            usersListEl.innerHTML = '';
-            state.users.forEach(user => {
-                const userElement = document.createElement('div');
-                userElement.className = 'flex items-center p-3 rounded-lg hover:bg-gray-700 cursor-pointer transition-colors';
-                userElement.innerHTML = `
-                    <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center font-bold mr-3">${user.username.charAt(0).toUpperCase()}</div>
-                    <span class="font-medium">${user.username}</span>
-                `;
-                userElement.addEventListener('click', () => selectChat(user));
-                usersListEl.appendChild(userElement);
-            });
-        };
-
-        const selectChat = (user) => {
-            state.activeChatUser = user;
-            chatWelcome.style.display = 'none';
-            chatActive.style.display = 'flex';
-            chatWithUsernameEl.textContent = user.username;
-            messageInput.value = '';
-            messageInput.focus();
-            loadMessages();
-        };
-
-        const loadMessages = () => {
-            messagesContainer.innerHTML = '';
-            const allMessages = db.getMessages();
-            const chatMessages = allMessages.filter(msg =>
-                (msg.sender === state.currentUser.username && msg.receiver === state.activeChatUser.username) ||
-                (msg.sender === state.activeChatUser.username && msg.receiver === state.currentUser.username)
-            );
-
-            chatMessages.forEach(renderMessage);
-            scrollToBottom();
-        };
-
-        const renderMessage = (msg) => {
-            const isSender = msg.sender === state.currentUser.username;
-            let decryptedContent = '[Decryption Failed]';
-            let contentToDecrypt = isSender ? msg.contentForSender : msg.content;
-
-            try {
-                // If I sent the message, decrypt the version encrypted for me.
-                // If I received it, decrypt the version encrypted for me.
-                // Both use my private key.
-                decryptedContent = decryptMessage(contentToDecrypt, state.privateKey);
-            } catch (e) {
-                console.error("Decryption error:", e);
-            }
-
-            // Sanitize decrypted content before adding to DOM
-            const sanitizedContent = document.createElement('div');
-            sanitizedContent.textContent = decryptedContent;
-
-            const messageElement = document.createElement('div');
-            messageElement.className = `flex items-end gap-3 ${isSender ? 'justify-end' : 'justify-start'}`;
-            // Add a data attribute to uniquely identify messages in the DOM
-            messageElement.setAttribute('data-msg-id', msg.id);
-            messageElement.innerHTML = `
-                <div class="flex flex-col ${isSender ? 'items-end' : 'items-start'}">
-                    <div class="px-4 py-3 rounded-2xl max-w-xs md:max-w-md break-words ${isSender ? 'bg-indigo-600 rounded-br-none' : 'bg-gray-600 rounded-bl-none'}">
-                        <p class="text-sm">${sanitizedContent.innerHTML}</p>
-                    </div>
-                    <span class="text-xs text-gray-500 mt-1">${new Date(msg.timestamp).toLocaleTimeString()}</span>
-                </div>
-            `;
-            messagesContainer.appendChild(messageElement);
-        };
-
-        const handleSendMessage = (e) => {
-            e.preventDefault();
-            const messageText = messageInput.value.trim();
-            if (!messageText || !state.activeChatUser) return;
-
-            // Encrypt for the recipient
-            const encryptedForReceiver = encryptMessage(messageText, state.activeChatUser.publicKey);
-
-            // Encrypt for the sender (so they can read their own history)
-            const encryptedForSender = encryptMessage(messageText, state.currentUser.publicKey);
-
-            if(!encryptedForReceiver || !encryptedForSender) {
-                alert("Encryption failed. The message is too long for the key size.");
-                return;
-            }
-
-            const newMessage = {
-                id: Date.now() + Math.random(), // unique id
-                sender: state.currentUser.username,
-                receiver: state.activeChatUser.username,
-                content: encryptedForReceiver, // This is what's "sent over the wire"
-                contentForSender: encryptedForSender, // For the sender's own history
-                timestamp: new Date().toISOString(),
+        setTimeout(() => { // Simulate async key generation to allow UI update
+            const primaryKeys = generateKeyPair();
+            const decoyKeys = generateKeyPair();
+            
+            const newUser = {
+                username,
+                // In a real app, hash passwords securely (e.g., with Argon2 or bcrypt)
+                primaryPassword,
+                duressPassword,
+                primaryPublicKey: primaryKeys.publicKey,
+                decoyPublicKey: decoyKeys.publicKey,
             };
 
-            const allMessages = db.getMessages();
-            allMessages.push(newMessage);
-            db.saveMessages(allMessages);
+            users.push(newUser);
+            db.saveUsers(users);
 
-            renderMessage(newMessage);
+            // Store both private keys locally, namespaced by context
+            localStorage.setItem(`aegis_pk_${username}_primary`, primaryKeys.privateKey);
+            localStorage.setItem(`aegis_pk_${username}_decoy`, decoyKeys.privateKey);
+
+            alert(`Registration successful for ${username}! You can now log in with either your REAL or DECOY password.`);
+            registerForm.reset();
+            registerBtn.textContent = 'Register Account';
+            registerBtn.disabled = false;
+            switchTab('login');
+        }, 100);
+    };
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+        clearAuthError();
+        const username = loginUsernameInput.value.trim();
+        const password = loginPasswordInput.value;
+
+        if (!username || !password) {
+            displayAuthError('Username and password are required.'); return;
+        }
+
+        const user = db.getUsers().find(u => u.username === username);
+
+        if (!user) {
+            displayAuthError('Invalid username or password.'); return;
+        }
+        
+        let context = null;
+        if (user.primaryPassword === password) context = 'primary';
+        else if (user.duressPassword === password) context = 'decoy';
+        
+        if (!context) {
+            displayAuthError('Invalid username or password.'); return;
+        }
+        
+        const privateKey = localStorage.getItem(`aegis_pk_${username}_${context}`);
+        if (!privateKey) {
+            displayAuthError(`Critical error: ${context} private key not found.`); return;
+        }
+
+        state.currentUser = user;
+        state.privateKey = privateKey;
+        state.context = context;
+
+        // Save session
+        sessionStorage.setItem('aegis_session_user', JSON.stringify(user));
+        sessionStorage.setItem('aegis_session_pk', privateKey);
+        sessionStorage.setItem('aegis_session_context', context);
+
+        initChatApp();
+    };
+
+    const handleLogout = () => {
+        state.currentUser = null;
+        state.privateKey = null;
+        state.context = null;
+        state.activeChatUser = null;
+        if (state.messagePollInterval) clearInterval(state.messagePollInterval);
+        sessionStorage.clear();
+        showAuthView();
+        loginForm.reset();
+    };
+        
+    const initChatApp = () => {
+        currentUsernameEl.textContent = state.currentUser.username;
+        populateUsersList();
+        showChatView();
+        state.messagePollInterval = setInterval(pollForMessages, 2000);
+    };
+
+    const populateUsersList = () => {
+        const allUsers = db.getUsers();
+        state.users = allUsers.filter(u => u.username !== state.currentUser.username);
+        usersListEl.innerHTML = '';
+        state.users.forEach(user => {
+            const userElement = document.createElement('div');
+            userElement.className = 'flex items-center p-3 rounded-lg hover:bg-gray-700 cursor-pointer transition-colors';
+            userElement.innerHTML = `<div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center font-bold mr-3">${user.username.charAt(0).toUpperCase()}</div><span class="font-medium">${user.username}</span>`;
+            userElement.addEventListener('click', () => selectChat(user));
+            usersListEl.appendChild(userElement);
+        });
+    };
+
+    const selectChat = (user) => {
+        state.activeChatUser = user;
+        chatWelcome.style.display = 'none';
+        chatActive.style.display = 'flex';
+        chatWithUsernameEl.textContent = user.username;
+        messageInput.value = '';
+        messageInput.focus();
+        loadMessages();
+    };
+
+    const loadMessages = () => {
+        messagesContainer.innerHTML = '';
+        const allMessages = db.getMessages();
+        // **CRITICAL**: Filter messages by the current context
+        const chatMessages = allMessages.filter(msg => 
+            msg.context === state.context &&
+            ((msg.sender === state.currentUser.username && msg.receiver === state.activeChatUser.username) ||
+             (msg.sender === state.activeChatUser.username && msg.receiver === state.currentUser.username))
+        );
+        chatMessages.forEach(renderMessage);
+        scrollToBottom();
+    };
+
+    const renderMessage = (msg) => {
+        const isSender = msg.sender === state.currentUser.username;
+        let decryptedContent = '[Decryption Failed]';
+        let contentToDecrypt = isSender ? msg.contentForSender : msg.content;
+        
+        try {
+            decryptedContent = decryptMessage(contentToDecrypt, state.privateKey);
+            if(decryptedContent === false || decryptedContent === null) throw new Error("Decryption returned false/null");
+        } catch (e) { console.error("Decryption error:", e); }
+        
+        const sanitizedContent = document.createElement('div');
+        sanitizedContent.textContent = decryptedContent;
+
+        const messageElement = document.createElement('div');
+        messageElement.className = `flex items-end gap-3 ${isSender ? 'justify-end' : 'justify-start'}`;
+        messageElement.setAttribute('data-msg-id', msg.id);
+        messageElement.innerHTML = `
+            <div class="flex flex-col ${isSender ? 'items-end' : 'items-start'}">
+                <div class="px-4 py-3 rounded-2xl max-w-xs md:max-w-md break-words ${isSender ? 'bg-indigo-600 rounded-br-none' : 'bg-gray-600 rounded-bl-none'}">
+                    <p class="text-sm">${sanitizedContent.innerHTML}</p>
+                </div>
+                <span class="text-xs text-gray-500 mt-1">${new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+            </div>
+        `;
+        messagesContainer.appendChild(messageElement);
+    };
+        
+    const handleSendMessage = (e) => {
+        e.preventDefault();
+        const messageText = messageInput.value.trim();
+        if (!messageText || !state.activeChatUser) return;
+
+        // Get the correct public keys based on the current context
+        const recipientPublicKey = state.context === 'primary' ? state.activeChatUser.primaryPublicKey : state.activeChatUser.decoyPublicKey;
+        const senderPublicKey = state.context === 'primary' ? state.currentUser.primaryPublicKey : state.currentUser.decoyPublicKey;
+        
+        const encryptedForReceiver = encryptMessage(messageText, recipientPublicKey);
+        const encryptedForSender = encryptMessage(messageText, senderPublicKey);
+        
+        if(!encryptedForReceiver || !encryptedForSender) {
+            alert("Encryption failed. Message may be too long for the current key size."); return;
+        }
+
+        const newMessage = {
+            id: Date.now() + Math.random(),
+            sender: state.currentUser.username,
+            receiver: state.activeChatUser.username,
+            context: state.context, // **CRITICAL**: Tag the message with the context
+            content: encryptedForReceiver,
+            contentForSender: encryptedForSender,
+            timestamp: new Date().toISOString(),
+        };
+
+        const allMessages = db.getMessages();
+        allMessages.push(newMessage);
+        db.saveMessages(allMessages);
+
+        renderMessage(newMessage);
+        scrollToBottom();
+        messageInput.value = '';
+    };
+
+    const pollForMessages = () => {
+        if (!state.currentUser || !state.activeChatUser) return;
+
+        const allMessages = db.getMessages();
+        const currentMessageIds = new Set([...messagesContainer.children].map(el => el.getAttribute('data-msg-id')));
+
+        const unreadMessages = allMessages.filter(msg =>
+            msg.context === state.context && // **CRITICAL**: Only poll for messages in the current context
+            msg.receiver === state.currentUser.username &&
+            msg.sender === state.activeChatUser.username &&
+            !currentMessageIds.has(String(msg.id))
+        );
+        
+        if (unreadMessages.length > 0) {
+            unreadMessages.forEach(renderMessage);
             scrollToBottom();
-            messageInput.value = '';
-        };
+        }
+    };
 
-        const pollForMessages = () => {
-            if (!state.currentUser || !state.activeChatUser) return;
+    const scrollToBottom = () => { messagesContainer.scrollTop = messagesContainer.scrollHeight; };
+        
+    const checkSession = () => {
+        const userJson = sessionStorage.getItem('aegis_session_user');
+        const pk = sessionStorage.getItem('aegis_session_pk');
+        const context = sessionStorage.getItem('aegis_session_context');
+        if (userJson && pk && context) {
+            state.currentUser = JSON.parse(userJson);
+            state.privateKey = pk;
+            state.context = context;
+            initChatApp();
+        } else {
+            showAuthView();
+        }
+    };
 
-            const allMessages = db.getMessages();
-            const currentMessageIds = new Set([...messagesContainer.children].map(el => el.getAttribute('data-msg-id')));
-
-            const unreadMessages = allMessages.filter(msg =>
-                msg.receiver === state.currentUser.username &&
-                msg.sender === state.activeChatUser.username &&
-                !currentMessageIds.has(String(msg.id))
-            );
-
-            if (unreadMessages.length > 0) {
-                unreadMessages.forEach(renderMessage);
-                scrollToBottom();
-            }
-        };
-
-        const scrollToBottom = () => {
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        };
-
-        const checkSession = () => {
-            const userJson = sessionStorage.getItem('aegis_session_user');
-            const pk = sessionStorage.getItem('aegis_session_pk');
-            if (userJson && pk) {
-                state.currentUser = JSON.parse(userJson);
-                state.privateKey = pk;
-                initChatApp();
-            } else {
-                showAuthView();
-            }
-        };
-
-
-        // --- EVENT LISTENERS ---
-        loginBtn.addEventListener('click', handleLogin);
-        registerBtn.addEventListener('click', handleRegister);
-        logoutBtn.addEventListener('click', handleLogout);
-        messageForm.addEventListener('submit', handleSendMessage);
-
-        // --- INITIALIZATION ---
-        checkSession();
-    });
-    </script>
+    // --- EVENT LISTENERS ---
+    loginTab.addEventListener('click', () => switchTab('login'));
+    registerTab.addEventListener('click', () => switchTab('register'));
+    loginForm.addEventListener('submit', handleLogin);
+    registerForm.addEventListener('submit', handleRegister);
+    logoutBtn.addEventListener('click', handleLogout);
+    messageForm.addEventListener('submit', handleSendMessage);
+        
+    // --- INITIALIZATION ---
+    checkSession();
+});
+</script>
 </body>
 </html>
